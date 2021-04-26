@@ -12,27 +12,7 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public @ResponseBody String greeting() {
-		return "Hello, World";
+		return "Backend - Grupo 2";
 	}
-
-    @RequestMapping("/suma/{primero}/{segundo}")
-    public @ResponseBody int suma(@PathVariable int primero, @PathVariable int segundo){
-        int result;
-        result = primero + segundo;
-        return result;
-
-
-
-    }
-    
-    @RequestMapping("/resta/{primero}/{segundo}")
-    public @ResponseBody int resta(@PathVariable int primero, @PathVariable int segundo){
-        int result;
-        result = primero - segundo;
-        return result;
-
-
-
-    }
 
 }
