@@ -1,30 +1,42 @@
 pipeline {
     agent any 
+    environment {
+        SONARQUBE_SERVER = "SonarQube"
+        BACKEND_FOLDER = "back"
+        TEST_FOLDER = "build/test-results/test"
+    }
     stages {
-        stage('Stage 1') {
+        stage("Inicio del Pipeline") {
             steps {
-                echo 'Hello world!' 
+                echo "Iniciando Pipeline: ${env.JOB_NAME}" 
             }
         }
-        stage('Analisis de SonarQube') {
+        stage("Analisis de SonarQube") {
             steps {
-				dir("/var/lib/jenkins/workspace/rama/back") {
-					withSonarQubeEnv('SonarQube') {
-						sh 'chmod +x ./gradlew'
-						sh './gradlew sonarqube'
+				dir("${env.WORKSPACE}/${env.BACKEND_FOLDER}") {
+					withSonarQubeEnv("${env.SONARQUBE_SERVER}") {
+						sh "chmod +x ./gradlew"
+						sh "./gradlew sonarqube"
     					}
 				}
   		    }
         }
-        stage('JUnit'){            
+        stage("Pruebas unitarias y de integración con JUnit"){            
             steps{
-                dir("/var/lib/jenkins/workspace/rama/back"){
-                    echo 'Iniciando JUnit'
-                    sh 'chmod +x ./gradlew'
-                    sh './gradlew test --info'
-                
-                }
-                
+                catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
+                	dir("${env.WORKSPACE}/${env.BACKEND_FOLDER}") {
+                        sh "chmod +x ./gradlew"
+						sh "./gradlew test"
+					}
+            	}
+                dir("${env.WORKSPACE}/${env.BACKEND_FOLDER}/${env.TEST_FOLDER}") {
+					junit "*.xml"
+				}
+            }
+        }
+        stage("Fin del Pipeline") {
+            steps {
+                echo "Finalizando Pipeline: ${env.JOB_NAME}" 
             }
         }
     }
