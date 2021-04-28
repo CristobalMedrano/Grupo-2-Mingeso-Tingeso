@@ -23,6 +23,11 @@ pipeline {
         }
         stage("Pruebas unitarias y de integración con JUnit"){            
             steps{
+                dir("${env.WORKSPACE}/${env.BACKEND_FOLDER}/${env.TEST_FOLDER}") {
+                    echo 'Limpiando carpeta de resultados.'
+					sh 'touch test-results.xml'
+					sh 'rm *.xml'
+				}
                 catchError(buildResult: "SUCCESS", stageResult: "FAILURE") {
                 	dir("${env.WORKSPACE}/${env.BACKEND_FOLDER}") {
                         sh "chmod +x ./gradlew"
@@ -30,6 +35,7 @@ pipeline {
 					}
             	}
                 dir("${env.WORKSPACE}/${env.BACKEND_FOLDER}/${env.TEST_FOLDER}") {
+                    echo "Formateando el resultado de los tests realizados."
 					junit "*.xml"
 				}
             }
