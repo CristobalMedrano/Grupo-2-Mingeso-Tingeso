@@ -11,7 +11,7 @@ public class SumaService {
     @GetMapping(value = "/suma/{primero}/{segundo}")
     public @ResponseBody int sumarNumeros(@PathVariable int primero, @PathVariable int segundo){
         Suma nuevaSuma = new Suma(primero, segundo);
-        int resultado = nuevaSuma.sumar();
+        var resultado = nuevaSuma.sumar();
         return resultado;
     }
 }
