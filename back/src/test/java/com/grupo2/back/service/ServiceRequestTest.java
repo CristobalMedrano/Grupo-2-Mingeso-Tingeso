@@ -20,7 +20,7 @@ public class ServiceRequestTest {
 	private TestRestTemplate restTemplate;
 
 	@Test
-	public void devuelveElSaludo() throws Exception {
+	void devuelveElSaludo() throws Exception {
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/",
 				String.class)).contains("Backend - Grupo 2");
 	}
