@@ -14,8 +14,7 @@ public class RestaService {
     @GetMapping("/resta/{primero}/{segundo}")
     public @ResponseBody
     int restarNumeros(@PathVariable int primero, @PathVariable int segundo){
-        Resta nuevaResta = new Resta(primero, segundo);
-        int resultado = nuevaResta.restar();
-        return resultado;
+        var nuevaResta = new Resta(primero, segundo);
+        return nuevaResta.restar();
     }
 }
