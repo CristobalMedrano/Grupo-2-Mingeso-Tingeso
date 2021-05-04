@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class SumaService {
 
-    @RequestMapping(value = "/suma/{primero}/{segundo}", method = RequestMethod.GET)
+    @GetMapping(value = "/suma/{primero}/{segundo}")
     public @ResponseBody int sumarNumeros(@PathVariable int primero, @PathVariable int segundo){
         Suma nuevaSuma = new Suma(primero, segundo);
         int resultado = nuevaSuma.sumar();

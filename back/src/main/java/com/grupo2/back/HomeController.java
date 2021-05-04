@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class HomeController {
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping(value = "/")
 	public @ResponseBody String greeting() {
 		return "Backend - Grupo 2";
 	}
