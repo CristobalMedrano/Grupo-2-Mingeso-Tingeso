@@ -5,9 +5,11 @@ import {
 import axios from 'axios';
 import Screen from './Screen';
 import KeyboardForm from './KeyboardForm';
+import Error from './Error';
 
 const Calculator = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [notConnect, setNotConnect] = useState(false);
   const [firstNumber, setFirstNumber] = useState(0);
   const [secondNumber, setSecondNumber] = useState(0);
   const [resultNumber, setResultNumber] = useState(0);
@@ -29,21 +31,22 @@ const Calculator = () => {
   const saveCalulatorDataHandler = async (enteredCalculatorData) => {
     setShowResult(true);
     setIsLoading(true);
+    setNotConnect(false);
     const calculatorData = {
       ...enteredCalculatorData,
     };
-
-    setFirstNumber(calculatorData.firstNumber);
-    setSecondNumber(calculatorData.secondNumber);
-    setMathOperation(getMathOperation(calculatorData.mathOperation));
-
     try {
       const res = await axios({ method: 'GET', url: `http://localhost:8080/${getApiMathOperation(calculatorData.mathOperation)}/${calculatorData.firstNumber}/${calculatorData.secondNumber}` });
       // await new Promise((resolve) => setTimeout(resolve, 500));
       setResultNumber(res.data);
+      setFirstNumber(calculatorData.firstNumber);
+      setSecondNumber(calculatorData.secondNumber);
+      setMathOperation(getMathOperation(calculatorData.mathOperation));
     } catch (error) {
       // eslint-disable-next-line
-      console.log(error.response.status);
+      console.log(error);
+      setNotConnect(true);
+      setIsLoading(false);
     }
     setIsLoading(false);
   };
@@ -65,13 +68,16 @@ const Calculator = () => {
                     </Col>
                   </Row>
                 )}
-                {!isLoading && (
+                {!isLoading && !notConnect && (
                 <Screen
                   firstNumber={firstNumber}
                   secondNumber={secondNumber}
                   resultNumber={resultNumber}
                   mathOperation={mathOperation}
                 />
+                )}
+                { notConnect && (
+                  <Error />
                 )}
               </Card>
             </Col>
