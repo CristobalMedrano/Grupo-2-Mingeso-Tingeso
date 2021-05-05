@@ -28,7 +28,7 @@ public class Resta {
     private int primerNumero;
     private int segundoNumero;
     private int resultadoResta;
-
+    // Miércoles 5 de mayo
     public Resta(int primerNumero, int segundoNumero) {
         this.primerNumero = primerNumero;
         this.segundoNumero = segundoNumero;
