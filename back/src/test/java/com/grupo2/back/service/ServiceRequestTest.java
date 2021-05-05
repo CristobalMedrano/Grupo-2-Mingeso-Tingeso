@@ -26,13 +26,13 @@ class ServiceRequestTest {
 	}
 
     @Test
-    public void resultadoSumaCorrecto() throws Exception {
+    void resultadoSumaCorrecto() throws Exception {
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/suma/10/5",
 			String.class)).contains("15");
 	}
 
 	@Test
-    public void resultadoRestaCorrecto() throws Exception {
+    void resultadoRestaCorrecto() throws Exception {
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/resta/10/5",
 			String.class)).contains("5");
 	}
